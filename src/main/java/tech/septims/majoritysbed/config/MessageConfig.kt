@@ -47,6 +47,17 @@ class MessageConfig : ConfigBase {
             return messageConfig.getString("%s.notice.voteIsNotHeldMessage", "§b[MajoritysBed]§r Voting is not currently held.").toString()
         }
 
+        fun getVoteSuggestsMessage(): String {
+            return messageConfig.getString("%s.notice.voteSuggestsMessage", "§b[MajoritysBed]§r %s suggests sleep.").toString()
+        }
+
+        fun getVoteAgreeButtonText(): String {
+            return messageConfig.getString("%s.notice.voteAgreeButtonText", "[AGREE] ").toString()
+        }
+        fun getVoteDeclineButtonText(): String {
+            return messageConfig.getString("%s.notice.voteDeclineButtonText", " [DECLINE]").toString()
+        }
+
 
     }
 }

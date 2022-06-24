@@ -9,6 +9,9 @@ ja:
     voteToAgreeMessage: "§b[MajoritysBed]§r 賛成に投票しました。"
     voteToDeclineMessage: "§b[MajoritysBed]§r 反対に投票しました。"
     voteIsNotHeldMessage: "§b[MajoritysBed]§r 現在投票は開催されていません。"
+    voteSuggestsMessage: "§b[MajoritysBed]§r %sが睡眠を提案しています"
+    voteAgreeButtonText: "[AGREE] "
+    voteDeclineButtonText: " [DECLINE]"
 en:
   broadcast:
     votePassedMessage: "§b[MajoritysBed]§r Skip the night with a majority vote."
@@ -19,3 +22,6 @@ en:
     voteToAgreeMessage: "§b[MajoritysBed]§r Voted to Agree."
     voteToDeclineMessage: "§b[MajoritysBed]§r Voted to Decline."
     voteIsNotHeldMessage: "§b[MajoritysBed]§r Voting is not currently held."
+    voteSuggestsMessage: "§b[MajoritysBed]§r %s suggests sleep."
+    voteAgreeButtonText: "[AGREE] "
+    voteDeclineButtonText: " [DECLINE]"
