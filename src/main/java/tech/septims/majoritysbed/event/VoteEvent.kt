@@ -112,7 +112,7 @@ class VoteEvent {
     }
 
     private fun notifyVote(){
-        val message = TextComponent(String.format(MessageConfig.getVoteSuggestsMessage(), proposer.name))
+        val message = TextComponent(MessageConfig.getVoteSuggestsMessage().format(proposer.name))
         message.isBold = false
         message.color = ChatColor.UNDERLINE
         Bukkit.getServer().spigot().broadcast(message)
