@@ -8,15 +8,17 @@ import tech.septims.majoritysbed.event.VoteEvent
 class ElectionManager {
     constructor(){
         Bukkit.getWorlds().forEach { ElectionManager.worldList[it] = null }
-
     }
+
     companion object {
         private var worldList : HashMap<World, VoteEvent?> = HashMap()
+
         fun startNewElection(player: Player, world: World) : Boolean{
             if(inVoting(world)) { return false }
             worldList[world] = VoteEvent(player, world)
             return true
         }
+
         fun endElection(voteEvent: VoteEvent){
             for (world in worldList){
                 if(world.value == null) { continue }
@@ -26,10 +28,12 @@ class ElectionManager {
                 }
             }
         }
+
         fun voteAgree(player: Player, world: World) : Boolean{
             if(!inVoting(world)) { return false }
             return worldList[world]?.voteAgree(player) == true
         }
+
         fun voteDecline(player: Player, world: World) : Boolean{
             if(!inVoting(world)) { return false }
             return worldList[world]?.voteDecline(player) == true
@@ -44,6 +48,4 @@ class ElectionManager {
             return worldList[world]?.isNotVoted(player) == true
         }
     }
-
-
 }

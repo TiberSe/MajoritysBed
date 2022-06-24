@@ -32,8 +32,4 @@ class MajoritysBed : JavaPlugin(), Listener{
             return instance
         }
     }
-
-
-
-
 }

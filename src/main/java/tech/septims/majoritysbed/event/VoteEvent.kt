@@ -39,6 +39,7 @@ class VoteEvent {
         progressBar.progress = 1.0 / playerSize.toDouble()
         endTimer = Bukkit.getScheduler().runTaskLater(MajoritysBed.getInstance(), Runnable { end() }, 60 * 20)
     }
+
     private fun updateProgressBar(){
         progressBar.progress = agreePlayer.size.toDouble() / playerSize.toDouble()
         progressBar.setTitle(String.format("!VOTE SKIP[%1\$d]!  « AGREE:%2\$d VS DECLINE:%3\$d »",

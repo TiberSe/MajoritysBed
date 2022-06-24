@@ -8,6 +8,7 @@ import tech.septims.majoritysbed.ElectionManager
 import tech.septims.majoritysbed.config.MessageConfig
 
 class Executor() : CommandExecutor {
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (command.name) {
             "majoritysbed" -> {

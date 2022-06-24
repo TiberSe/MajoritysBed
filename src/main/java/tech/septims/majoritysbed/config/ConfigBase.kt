@@ -27,16 +27,19 @@ open class ConfigBase () {
         }
         return config
     }
+
     private fun reloadConfig() {
         config = YamlConfiguration.loadConfiguration(configFile)
         val defConfigStream = plugin.getResource(file) ?: return
         (config as YamlConfiguration).setDefaults(YamlConfiguration.loadConfiguration(InputStreamReader(defConfigStream, StandardCharsets.UTF_8)))
     }
+
     fun saveDefaultConfig() {
         if (!configFile.exists()) {
             plugin.saveResource(file, false)
         }
     }
+
     fun saveDefaultConfig(overwrite : Boolean) {
         if (!configFile.exists()) {
             plugin.saveResource(file, overwrite)
