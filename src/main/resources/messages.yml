@@ -1,4 +1,4 @@
-lang: ja
+lang: en
 ja:
   broadcast:
     votePassedMessage: "§b[MajoritysBed]§r 賛成多数で夜をスキップします。"
