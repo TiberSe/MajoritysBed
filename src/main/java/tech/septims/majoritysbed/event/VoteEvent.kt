@@ -112,15 +112,15 @@ class VoteEvent {
     }
 
     private fun notifyVote(){
-        val message = TextComponent(String.format("§b[MajoritysBed]§r %1\$sが睡眠を提案しています", proposer.name))
+        val message = TextComponent(String.format(MessageConfig.getVoteSuggestsMessage(), proposer.name))
         message.isBold = false
         message.color = ChatColor.UNDERLINE
         Bukkit.getServer().spigot().broadcast(message)
-        val commandMsg = TextComponent("[AGREE] ")
+        val commandMsg = TextComponent(MessageConfig.getVoteAgreeButtonText())
         commandMsg.color = ChatColor.GREEN
         commandMsg.isBold = true
         commandMsg.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/majoritysbed vote agree")
-        val declineMsg = TextComponent(" [DECLINE]")
+        val declineMsg = TextComponent(MessageConfig.getVoteDeclineButtonText())
         declineMsg.color = ChatColor.RED
         declineMsg.isBold = true
         declineMsg.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/majoritysbed vote decline")
