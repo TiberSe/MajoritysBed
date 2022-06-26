@@ -19,7 +19,7 @@ class SystemConfig : ConfigBase {
         fun getLanguageFile() : String {
             return when(val langRaw = systemConfig.getString("lang", "en")){
                 "ja_JP" -> "ja_JP.yml"
-                "en_UK" -> "en_GB.yml"
+                "en_GB" -> "en_GB.yml"
                 else -> {
                     Bukkit.getLogger().warning("The language: %s is not supported. Uses English instead.".format(langRaw))
                     "en_GB.yml"

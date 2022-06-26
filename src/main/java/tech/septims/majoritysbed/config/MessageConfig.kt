@@ -14,47 +14,46 @@ class MessageConfig : ConfigBase {
     }
 
     companion object {
-        private lateinit var lang : String
         private lateinit var messageConfig: FileConfiguration
 
         fun getVotePassedMessage(): String {
-            return messageConfig.getString("broadcast.votePassedMessage".format(lang), "§b[MajoritysBed]§r The night was skipped due to majority ayes.").toString()
+            return messageConfig.getString("broadcast.votePassedMessage", "§b[MajoritysBed]§r The night was skipped due to majority ayes.").toString()
         }
 
         fun getVoteRejectMessage(): String {
-            return messageConfig.getString("broadcast.voteRejectMessage".format(lang), "§b[MajoritysBed]§r The night was not skipped due to a majority of objections.").toString()
+            return messageConfig.getString("broadcast.voteRejectMessage", "§b[MajoritysBed]§r The night was not skipped due to a majority of objections.").toString()
         }
 
         fun getVoteUndecidedMessage(): String {
-            return messageConfig.getString("broadcast.voteUndecidedMessage".format(lang), "§b[MajoritysBed]§r The vote was rejected on a tie vote.").toString()
+            return messageConfig.getString("broadcast.voteUndecidedMessage", "§b[MajoritysBed]§r The vote was rejected on a tie vote.").toString()
         }
 
         fun getVoteBelowStipulationMessage(): String {
-            return messageConfig.getString("broadcast.voteBelowStipulationMessage".format(lang), "§b[MajoritysBed]§r The vote was Dismissed because the percentage of votes cast was below the stipulation.").toString()
+            return messageConfig.getString("broadcast.voteBelowStipulationMessage", "§b[MajoritysBed]§r The vote was Dismissed because the percentage of votes cast was below the stipulation.").toString()
         }
 
         fun getVotedToAgreeMessage(): String{
-            return messageConfig.getString("notice.voteToAgreeMessage".format(lang), "§b[MajoritysBed]§r Voted to Agree.").toString()
+            return messageConfig.getString("notice.voteToAgreeMessage", "§b[MajoritysBed]§r Voted to Agree.").toString()
         }
 
         fun getVotedToDeclineMessage(): String{
-            return messageConfig.getString("notice.voteToDeclineMessage".format(lang), "§b[MajoritysBed]§r Voted to Decline.").toString()
+            return messageConfig.getString("notice.voteToDeclineMessage", "§b[MajoritysBed]§r Voted to Decline.").toString()
         }
 
         fun getVoteIsNotHeldMessage(): String {
-            return messageConfig.getString("notice.voteIsNotHeldMessage".format(lang), "§b[MajoritysBed]§r Voting is not currently held.").toString()
+            return messageConfig.getString("notice.voteIsNotHeldMessage", "§b[MajoritysBed]§r Voting is not currently held.").toString()
         }
 
         fun getVoteSuggestsMessage(): String {
-            return messageConfig.getString("notice.voteSuggestsMessage".format(lang), "§b[MajoritysBed]§r %s suggests sleep.").toString()
+            return messageConfig.getString("notice.voteSuggestsMessage", "§b[MajoritysBed]§r %s suggests sleep.").toString()
         }
 
         fun getVoteAgreeButtonText(): String {
-            return messageConfig.getString("notice.voteAgreeButtonText".format(lang), "[AGREE] ").toString()
+            return messageConfig.getString("notice.voteAgreeButtonText", "[AGREE] ").toString()
         }
 
         fun getVoteDeclineButtonText(): String {
-            return messageConfig.getString("notice.voteDeclineButtonText".format(lang), " [DECLINE]").toString()
+            return messageConfig.getString("notice.voteDeclineButtonText", " [DECLINE]").toString()
         }
     }
 }
