@@ -1,0 +1,12 @@
+broadcast:
+  votePassedMessage: "§b[MajoritysBed]§r 賛成多数で夜をスキップします。"
+  voteRejectMessage: "§b[MajoritysBed]§r 反対多数で夜はスキップされませんでした。"
+  voteUndecidedMessage: "§b[MajoritysBed]§r 投票は賛否同数で棄却されました。"
+  voteBelowStipulationMessage: "§b[MajoritysBed]§r 投票率が規定を下回ったため棄却されました。"
+notice:
+  voteToAgreeMessage: "§b[MajoritysBed]§r 賛成に投票しました。"
+  voteToDeclineMessage: "§b[MajoritysBed]§r 反対に投票しました。"
+  voteIsNotHeldMessage: "§b[MajoritysBed]§r 現在投票は開催されていません。"
+  voteSuggestsMessage: "§b[MajoritysBed]§r %sが睡眠を提案しています"
+  voteAgreeButtonText: "[AGREE] "
+  voteDeclineButtonText: " [DECLINE]"
