@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitTask
 import tech.septims.majoritysbed.ElectionManager
 import tech.septims.majoritysbed.MajoritysBed
 import tech.septims.majoritysbed.config.MessageConfig
+import tech.septims.majoritysbed.config.SystemConfig
 
 class VoteEvent {
     private var playerSize : Int
@@ -24,20 +25,22 @@ class VoteEvent {
     private val proposer: Player
     private var progressBar: BossBar
     private val endTimer: BukkitTask
+    private val requireAgreeRatio: Int
+    private val requireDeclineRatio: Int
 
     constructor(player: Player, world: World) {
         this.world = world
         playerSize = world.players.size
+        requireAgreeRatio = SystemConfig.getRequiredAgreeRatio()
+        requireDeclineRatio = SystemConfig.getRequiredDeclineRatio()
         notVotedPlayer = ArrayList(world.players)
         proposer = player
-        progressBar = Bukkit.getServer().createBossBar("", BarColor.BLUE, BarStyle.SEGMENTED_10)
+        progressBar = Bukkit.getServer().createBossBar("", SystemConfig.getBossbarColor(), SystemConfig.getBossbarStyle())
         updateProgressBar()
         notifyVote()
-        world.players.forEach {
-            progressBar.addPlayer(it)
-        }
+        if(SystemConfig.getBossbarShow()) { world.players.forEach { progressBar.addPlayer(it) } }
         progressBar.progress = 1.0 / playerSize.toDouble()
-        endTimer = Bukkit.getScheduler().runTaskLater(MajoritysBed.getInstance(), Runnable { end() }, 60 * 20)
+        endTimer = Bukkit.getScheduler().runTaskLater(MajoritysBed.getInstance(), Runnable { end() }, SystemConfig.getVoteTimeLimit() * 20)
     }
 
     private fun updateProgressBar(){
@@ -72,13 +75,13 @@ class VoteEvent {
     }
 
     private fun check() : Boolean{
-        if ((playerSize / 2) < agreePlayer.size) {
+        if ((playerSize / requireAgreeRatio) < agreePlayer.size) {
             passVote()
             return true
-        } else if ((playerSize / 2) < declinePlayer.size) {
+        } else if ((playerSize / requireDeclineRatio) < declinePlayer.size) {
             rejectVote()
             return true
-        } else if (notVotedPlayer.size == 0) {
+        } else if (notVotedPlayer.size == 0 ) {
             Bukkit.broadcastMessage(MessageConfig.getVoteUndecidedMessage())
             finalize()
             return false

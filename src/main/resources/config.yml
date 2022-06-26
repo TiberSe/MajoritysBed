@@ -1,1 +1,8 @@
 lang: en_GB
+vote:
+  time-limit: 60
+  required-agree-ratio: 2
+  required-decline-ratio: 2
+boss-bar:
+  show: true
+  style: SEGMENTED_10

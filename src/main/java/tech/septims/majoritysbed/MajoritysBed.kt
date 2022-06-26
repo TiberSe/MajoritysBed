@@ -13,6 +13,7 @@ class MajoritysBed : JavaPlugin(), Listener{
     private lateinit var config: SystemConfig
     private lateinit var electionManager: ElectionManager
     private lateinit var messageConfig: MessageConfig
+
     override fun onEnable(){
         instance = this
         config = SystemConfig(this, "config.yml")

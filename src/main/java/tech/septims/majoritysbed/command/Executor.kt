@@ -22,7 +22,7 @@ class Executor() : CommandExecutor {
                         }
                         when(args[1]){
                             "agree" -> {
-                                if(ElectionManager.voteAgree(player, player.world)){
+                                 if(ElectionManager.voteAgree(player, player.world)){
                                     player.sendMessage(MessageConfig.getVotedToAgreeMessage())
                                 }
                                 return true
