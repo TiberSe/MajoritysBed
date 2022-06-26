@@ -65,5 +65,18 @@ class SystemConfig : ConfigBase {
             return systemConfig.getInt("vote.required-decline-ratio", 2)
         }
 
+        fun getSuggesterAutoVoteToAgree() : Boolean {
+            return systemConfig.getBoolean("vote.suggester-auto-vote-to-agree", false)
+        }
+
+        fun getPhantomSpawnTimerResetTarget() : String {
+            return when(systemConfig.getString("vote.phantom-spawn-timer-reset-target", "agreed")){
+                "agreed" -> "agreed"
+                "all" -> "all"
+                "none" -> "none"
+                else -> "agreed"
+            }
+        }
+
     }
 }

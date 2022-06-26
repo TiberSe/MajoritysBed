@@ -17,35 +17,46 @@ import tech.septims.majoritysbed.config.MessageConfig
 import tech.septims.majoritysbed.config.SystemConfig
 
 class VoteEvent {
-    private var playerSize : Int
+    private var world: World
+    private val proposer: Player
+
+    private var allPlayers : ArrayList<Player>
     private var notVotedPlayer : ArrayList<Player>
     private var agreePlayer: ArrayList<Player> = ArrayList()
     private var declinePlayer: ArrayList<Player> = ArrayList()
-    private var world: World
-    private val proposer: Player
-    private var progressBar: BossBar
-    private val endTimer: BukkitTask
+
     private val requireAgreeRatio: Int
     private val requireDeclineRatio: Int
 
+    private var progressBar: BossBar
+    private val progressBarTitle: String
+
+    private val endTimer: BukkitTask
+
+
     constructor(player: Player, world: World) {
         this.world = world
-        playerSize = world.players.size
+        proposer = player
+        allPlayers = ArrayList(world.players)
         requireAgreeRatio = SystemConfig.getRequiredAgreeRatio()
         requireDeclineRatio = SystemConfig.getRequiredDeclineRatio()
         notVotedPlayer = ArrayList(world.players)
-        proposer = player
-        progressBar = Bukkit.getServer().createBossBar("", SystemConfig.getBossbarColor(), SystemConfig.getBossbarStyle())
-        updateProgressBar()
+
         notifyVote()
+
+        progressBar = Bukkit.getServer().createBossBar("", SystemConfig.getBossbarColor(), SystemConfig.getBossbarStyle())
+        progressBarTitle = MessageConfig.getVoteBossBarTitle()
+
         if(SystemConfig.getBossbarShow()) { world.players.forEach { progressBar.addPlayer(it) } }
-        progressBar.progress = 1.0 / playerSize.toDouble()
         endTimer = Bukkit.getScheduler().runTaskLater(MajoritysBed.getInstance(), Runnable { end() }, SystemConfig.getVoteTimeLimit() * 20)
+
+        if(SystemConfig.getSuggesterAutoVoteToAgree()) { voteAgree(proposer) }
+        updateProgressBar()
     }
 
     private fun updateProgressBar(){
-        progressBar.progress = agreePlayer.size.toDouble() / playerSize.toDouble()
-        progressBar.setTitle(String.format("!VOTE SKIP[%1\$d]!  « AGREE:%2\$d VS DECLINE:%3\$d »",
+        progressBar.progress = (agreePlayer.size / allPlayers.size).toDouble()
+        progressBar.setTitle(progressBarTitle.format(
                 notVotedPlayer.size,
                 agreePlayer.size,
                 declinePlayer.size))
@@ -75,10 +86,10 @@ class VoteEvent {
     }
 
     private fun check() : Boolean{
-        if ((playerSize / requireAgreeRatio) < agreePlayer.size) {
+        if ((allPlayers.size / requireAgreeRatio) < agreePlayer.size) {
             passVote()
             return true
-        } else if ((playerSize / requireDeclineRatio) < declinePlayer.size) {
+        } else if ((allPlayers.size / requireDeclineRatio) < declinePlayer.size) {
             rejectVote()
             return true
         } else if (notVotedPlayer.size == 0 ) {
@@ -90,7 +101,10 @@ class VoteEvent {
     }
 
     private fun passVote(){
-        agreePlayer.forEach{ it.setStatistic(Statistic.TIME_SINCE_REST, 0) }
+        when(SystemConfig.getPhantomSpawnTimerResetTarget()) {
+            "agreed" -> agreePlayer.forEach{ it.setStatistic(Statistic.TIME_SINCE_REST, 0) }
+            "all" -> allPlayers.forEach{ it.setStatistic(Statistic.TIME_SINCE_REST, 0) }
+        }
         Bukkit.broadcastMessage(MessageConfig.getVotePassedMessage())
         world.weatherDuration = 0
         world.isThundering = false
