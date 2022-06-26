@@ -3,6 +3,7 @@ broadcast:
   voteRejectMessage: "§b[MajoritysBed]§r The night was not skipped due to a majority of objections."
   voteUndecidedMessage: "§b[MajoritysBed]§r The vote was rejected on a tie vote."
   voteBelowStipulationMessage: "§b[MajoritysBed]§r Dismissed because the percentage of votes cast was below the stipulation."
+  voteBossBarTitle: "!VOTE SKIP[Remaining: %1$d votes]!  « AGREE:%2$d VS DECLINE:%3$d »"
 notice:
   voteToAgreeMessage: "§b[MajoritysBed]§r Voted to Agree."
   voteToDeclineMessage: "§b[MajoritysBed]§r Voted to Decline."

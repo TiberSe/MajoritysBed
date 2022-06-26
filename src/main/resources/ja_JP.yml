@@ -3,6 +3,7 @@ broadcast:
   voteRejectMessage: "§b[MajoritysBed]§r 反対多数で夜はスキップされませんでした。"
   voteUndecidedMessage: "§b[MajoritysBed]§r 投票は賛否同数で棄却されました。"
   voteBelowStipulationMessage: "§b[MajoritysBed]§r 投票率が規定を下回ったため棄却されました。"
+  voteBossBarTitle: "!VOTE SKIP[Remaining: %1$d votes]!  « AGREE:%2$d VS DECLINE:%3$d »"
 notice:
   voteToAgreeMessage: "§b[MajoritysBed]§r 賛成に投票しました。"
   voteToDeclineMessage: "§b[MajoritysBed]§r 反対に投票しました。"

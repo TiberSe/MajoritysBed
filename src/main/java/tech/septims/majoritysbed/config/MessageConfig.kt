@@ -32,6 +32,10 @@ class MessageConfig : ConfigBase {
             return messageConfig.getString("broadcast.voteBelowStipulationMessage", "§b[MajoritysBed]§r The vote was Dismissed because the percentage of votes cast was below the stipulation.").toString()
         }
 
+        fun getVoteBossBarTitle() : String {
+            return messageConfig.getString("broadcast.voteBossBarTitle", "!VOTE SKIP[Remaining: %1\$d votes]!  « AGREE:%2\$d VS DECLINE:%3\$d »").toString()
+        }
+
         fun getVotedToAgreeMessage(): String{
             return messageConfig.getString("notice.voteToAgreeMessage", "§b[MajoritysBed]§r Voted to Agree.").toString()
         }
@@ -55,5 +59,6 @@ class MessageConfig : ConfigBase {
         fun getVoteDeclineButtonText(): String {
             return messageConfig.getString("notice.voteDeclineButtonText", " [DECLINE]").toString()
         }
+
     }
 }
