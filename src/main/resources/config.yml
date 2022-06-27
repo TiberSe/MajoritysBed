@@ -1,7 +1,7 @@
 lang: en_GB # [en_GB | ja_JP]
 vote:
   time-limit: 60
-  required-agree-ratio: 2 # If the total number of agree votes exceeds the total number of voters divided by the number in this setting, the vote is  passed.
+  required-agree-ratio: 2 # If the total number of agree votes exceeds the total number of voters divided by the number in this setting, the vote is passed.
   required-decline-ratio: 2 # If the total number of decline votes exceeds the total number of voters divided by the number in this setting, the vote is rejected.
   suggester-auto-vote-to-agree: false # [true | false] Whether the vote of the player who proposed the vote is automatically an affirmative vote
   phantom-spawn-timer-reset-target: agreed # [agreed | all | none] agreed : only vote agreed player / all : all player / none : none
