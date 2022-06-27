@@ -1,5 +1,5 @@
 name: MajoritysBed
-version: '${version}'
+version: '0.110'
 main: tech.septims.majoritysbed.MajoritysBed
 api-version: 1.19
 softdepend: [ DetectAFK ]
