@@ -10,13 +10,19 @@ import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.HandlerList
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerChangedWorldEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitTask
 import tech.septims.majoritysbed.ElectionManager
 import tech.septims.majoritysbed.MajoritysBed
 import tech.septims.majoritysbed.config.MessageConfig
 import tech.septims.majoritysbed.config.SystemConfig
 
-class VoteEvent {
+class VoteEvent : Listener {
     private var world: World
     private val proposer: Player
 
@@ -33,6 +39,8 @@ class VoteEvent {
 
     private val endTimer: BukkitTask
 
+    private val notifyMsg: TextComponent
+    private val commandMsg = TextComponent(MessageConfig.getVoteAgreeButtonText())
 
     constructor(player: Player, world: World) {
         this.world = world
@@ -41,17 +49,31 @@ class VoteEvent {
         requireAgreeRatio = SystemConfig.getRequiredAgreeRatio()
         requireDeclineRatio = SystemConfig.getRequiredDeclineRatio()
         notVotedPlayer = ArrayList(world.players)
-
-        notifyVote()
+        Bukkit.getServer().pluginManager.registerEvents(this, MajoritysBed.getInstance())
 
         progressBar = Bukkit.getServer().createBossBar("", SystemConfig.getBossbarColor(), SystemConfig.getBossbarStyle())
         progressBarTitle = MessageConfig.getVoteBossBarTitle()
 
         if(SystemConfig.getBossbarShow()) { world.players.forEach { progressBar.addPlayer(it) } }
+
         endTimer = Bukkit.getScheduler().runTaskLater(MajoritysBed.getInstance(), Runnable { end() }, SystemConfig.getVoteTimeLimit() * 20)
 
-        if(SystemConfig.getSuggesterAutoVoteToAgree()) { voteAgree(proposer) }
+        notifyMsg = TextComponent(MessageConfig.getVoteSuggestsMessage().format(proposer.name))
+        notifyMsg.color = ChatColor.UNDERLINE
+        commandMsg.color = ChatColor.GREEN
+        commandMsg.isBold = true
+        commandMsg.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/majoritysbed vote agree")
+        val declineMsg = TextComponent(MessageConfig.getVoteDeclineButtonText())
+        declineMsg.color = ChatColor.RED
+        declineMsg.isBold = true
+        declineMsg.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/majoritysbed vote decline")
+        commandMsg.addExtra(declineMsg)
+
+        notifyVote(world.players)
         updateProgressBar()
+
+        if(SystemConfig.getSuggesterAutoVoteToAgree()) { voteAgree(proposer) }
+
     }
 
     private fun updateProgressBar(){
@@ -81,7 +103,7 @@ class VoteEvent {
         return true
     }
 
-    fun isNotVoted(player: Player) : Boolean {
+    private fun isNotVoted(player: Player) : Boolean {
         return (notVotedPlayer.contains(player))
     }
 
@@ -119,6 +141,7 @@ class VoteEvent {
     }
 
     private fun finalize(){
+        HandlerList.unregisterAll(this)
         progressBar.removeAll()
         endTimer.cancel()
         ElectionManager.endElection(this)
@@ -129,22 +152,37 @@ class VoteEvent {
         finalize()
     }
 
-    private fun notifyVote(){
-        val message = TextComponent(MessageConfig.getVoteSuggestsMessage().format(proposer.name))
-        message.isBold = false
-        message.color = ChatColor.UNDERLINE
-        Bukkit.getServer().spigot().broadcast(message)
-        val commandMsg = TextComponent(MessageConfig.getVoteAgreeButtonText())
-        commandMsg.color = ChatColor.GREEN
-        commandMsg.isBold = true
-        commandMsg.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/majoritysbed vote agree")
-        val declineMsg = TextComponent(MessageConfig.getVoteDeclineButtonText())
-        declineMsg.color = ChatColor.RED
-        declineMsg.isBold = true
-        declineMsg.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/majoritysbed vote decline")
-        commandMsg.addExtra(declineMsg)
-        world.players.forEach{
-            it.spigot().sendMessage(commandMsg)
+    private fun notifyVote(player: Player){
+        player.spigot().sendMessage(notifyMsg)
+        player.spigot().sendMessage(commandMsg)
+    }
+    private fun notifyVote(players: List<Player>){
+        players.forEach {
+            notifyVote(it)
         }
+    }
+
+    @EventHandler
+    fun onPlayerJoin(e: PlayerJoinEvent){
+        if(e.player.world != this.world){ return }
+        this.notVotedPlayer.add(e.player)
+        updateProgressBar()
+    }
+
+    @EventHandler
+    fun onPlayerQuit(e: PlayerQuitEvent){
+        if(e.player.world != this.world){ return }
+        this.notVotedPlayer.remove(e.player)
+        this.agreePlayer.remove(e.player)
+        this.declinePlayer.remove(e.player)
+        updateProgressBar()
+    }
+    @EventHandler
+    fun onPlayerChangedWorld(e: PlayerChangedWorldEvent){
+        if(e.from != world) { return }
+        this.notVotedPlayer.remove(e.player)
+        this.agreePlayer.remove(e.player)
+        this.declinePlayer.remove(e.player)
+        updateProgressBar()
     }
 }
