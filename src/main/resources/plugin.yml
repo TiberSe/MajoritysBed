@@ -4,7 +4,7 @@ main: tech.septims.majoritysbed.MajoritysBed
 api-version: 1.19
 softdepend: [ DetectAFK ]
 authors: [ Septim ]
-description: A simple sleep election plugin
+description: A simple sleep election plugin.
 commands:
   majoritysbed:
     description: Best Democratic Bed...so
