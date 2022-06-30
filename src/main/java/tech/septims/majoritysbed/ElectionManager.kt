@@ -43,9 +43,5 @@ class ElectionManager {
             return worldList[world] != null
         }
 
-        private fun isNotVoted(player: Player, world: World) : Boolean{
-            if(!inVoting(world)) { return false}
-            return worldList[world]?.isNotVoted(player) == true
-        }
     }
 }
