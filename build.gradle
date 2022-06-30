@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'tech.septims'
-version = '0.110-SNAPSHOT'
+version = '0.113-SNAPSHOT'
 
 repositories {
     mavenCentral()
